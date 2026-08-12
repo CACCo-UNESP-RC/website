@@ -1,0 +1,17 @@
+{
+  "name": "Controle de Faltas",
+  "short_name": "Controle de Faltas",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "description": "Gerencie suas faltas e presenças da faculdade.",
+  "icons": [
+    {
+      "src": "../assets/id_visual_cacco/CACCo-Rosa.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

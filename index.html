@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d0d0d">
+    <link rel="icon" type="image/png" href="./assets/id_visual_cacco/CACCo-Rosa.png">
+    <title>CACCo | Em Construção</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --panel-bg: rgba(15, 15, 15, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #ed157b; /* CACCo Pink */
+            --accent-hover: #c90e66;
+            --unesp-blue: #004e9a; /* UNESP Blue */
+            --glass-blur: blur(12px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(237, 21, 123, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 78, 154, 0.15) 0%, transparent 50%);
+            color: var(--text-main); 
+            min-height: 100vh; 
+            padding: 2rem; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem; 
+            font-weight: 800; 
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--accent), var(--unesp-blue)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .hackerman-img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            margin: 0 auto 2rem auto;
+            display: block;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(237, 21, 123, 0.4);
+        }
+
+        .footer {
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+        <img src="./assets/id_visual_cacco/CACCo-Branco.png" alt="CACCo" style="height: 60px; object-fit: contain;">
+        <div style="width: 2px; height: 40px; background: rgba(255,255,255,0.2);"></div>
+        <img src="./assets/id_visual_unesp/AV01B_transparent.png" alt="UNESP" style="height: 55px; object-fit: contain;">
+    </div>
+
+    <div class="glass-panel">
+        <h1>Em Construção</h1>
+        <p class="subtitle">O site oficial do CACCo está sendo programado neste exato momento por nossa equipe de elite.</p>
+        
+        <img src="https://i.kym-cdn.com/entries/icons/original/000/021/807/ig9OoyenpxqdCQyABmOQBZDI0duHk2QZZmWg2Hxd4ro.jpg" alt="Hackerman" class="hackerman-img">
+
+        <p style="margin-bottom: 1rem; color: var(--text-main);">Enquanto o site principal não fica pronto, você pode usar nossa ferramenta:</p>
+        <a href="./faltas/index.html" class="btn-primary">Acessar Controle de Faltas</a>
+    </div>
+
+    <footer class="footer">
+        Made by <a href="https://github.com/zirondi" target="_blank">zirondi</a> with ❤️
+    </footer>
+
+    <script>!function(){var e=[38,38,40,40,37,39,37,39,66,65],t=0;document.addEventListener("keydown",(function(n){n.keyCode===e[t]?++t===e.length&&(t=0,eval(atob("CnZhciBlPW5ldyBBdWRpbygiLi9hc3NldHMvdXNzcl9hbnRoZW0ubXAzIik7CmUuY3VycmVudFRpbWUgPSA1OwplLnBsYXkoKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLWFjY2VudCIsIiNjYzAwMDAiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLWFjY2VudC1ob3ZlciIsIiM5OTAwMDAiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLXVuZXNwLWJsdWUiLCIjZmZjYzAwIik7CmRvY3VtZW50LmJvZHkuc3R5bGUuYmFja2dyb3VuZEltYWdlPSJyYWRpYWwtZ3JhZGllbnQoY2lyY2xlIGF0IDE1JSA1MCUsIHJnYmEoMjA0LCAwLCAwLCAwLjQpIDAlLCB0cmFuc3BhcmVudCA1MCUpLCByYWRpYWwtZ3JhZGllbnQoY2lyY2xlIGF0IDg1JSAzMCUsIHJnYmEoMjU1LCAyMDQsIDAsIDAuMikgMCUsIHRyYW5zcGFyZW50IDUwJSkiOwp2YXIgdD1kb2N1bWVudC5xdWVyeVNlbGVjdG9yKCIuaGFja2VybWFuLWltZyIpOwp0JiYodC5zcmM9Ii4vYXNzZXRzL2Vhc3Rlcl9lZ2dfaW1nLmpwZWciKTsKdmFyIG49ZG9jdW1lbnQucXVlcnlTZWxlY3RvcigibGlua1tyZWw9J2ljb24nXSIpOwppZihuKXsKICAgIG4uaHJlZj0iZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lqNDhkR1Y0ZENCNVBTSXVPV1Z0SWlCbWIyNTBMWE5wZW1VOUlqa3dJaUJtYVd4c1BTSWpZMk13TURBd0lqN2ltSzA4TDNSbGVIUStQQzl6ZG1jKyI7Cn0gZWxzZSB7CiAgICBuID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgibGluayIpOwogICAgbi5yZWwgPSAiaWNvbiI7CiAgICBuLmhyZWYgPSAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lqNDhkR1Y0ZENCNVBTSXVPV1Z0SWlCbWIyNTBMWE5wZW1VOUlqa3dJaUJtYVd4c1BTSWpZMk13TURBd0lqN2ltSzA4TDNSbGVIUStQQzl6ZG1jKyI7CiAgICBkb2N1bWVudC5oZWFkLmFwcGVuZENoaWxkKG4pOwp9Cg=="))):(t=0)}))}();</script>
+</body>
+</html>

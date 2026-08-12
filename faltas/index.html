@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d0d0d">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" href="../assets/id_visual_cacco/CACCo-Rosa.png">
+    <title>Controle de Faltas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --panel-bg: rgba(15, 15, 15, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #ed157b; /* CACCo Pink */
+            --accent-hover: #c90e66;
+            --unesp-blue: #004e9a; /* UNESP Blue */
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --glass-blur: blur(12px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(237, 21, 123, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 78, 154, 0.15) 0%, transparent 50%);
+            color: var(--text-main); min-height: 100vh; padding: 2rem; display: flex; flex-direction: column; align-items: center;
+        }
+
+        .container { width: 100%; max-width: 900px; }
+
+        header { text-align: center; margin-bottom: 2rem; }
+
+        h1 {
+            font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--accent), var(--unesp-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .glass-panel {
+            background: var(--panel-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--panel-border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .form-group { flex: 1; min-width: 200px; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-muted); font-weight: 500; }
+        
+        input {
+            width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--panel-border);
+            background: rgba(15, 23, 42, 0.6); color: var(--text-main); font-size: 1rem; transition: all 0.3s ease;
+        }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); }
+
+        .day-btn {
+            padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--panel-border); background: transparent; 
+            color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-weight: 500;
+        }
+        .day-btn.active {
+            background: rgba(59, 130, 246, 0.2); border-color: var(--accent); color: var(--accent);
+        }
+
+        button.action-btn {
+            padding: 0.75rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; font-size: 1rem;
+            cursor: pointer; transition: all 0.2s ease; width: 100%; margin-top: 1rem;
+            background: var(--accent); color: white;
+        }
+        button.action-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .classes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+
+        .class-card {
+            background: var(--panel-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--panel-border);
+            border-radius: 12px; padding: 1.5rem; transition: transform 0.2s ease; display: flex; flex-direction: column;
+        }
+        .class-card:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.2); }
+
+        .class-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .class-title { font-size: 1.25rem; font-weight: 600; }
+        
+        .btn-delete { background: transparent; border: none; color: var(--text-muted); padding: 0.5rem; cursor: pointer; font-size: 1rem; }
+        .btn-delete:hover { color: var(--danger); }
+
+        .stat-grid {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 1.5rem;
+            background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-item { text-align: center; }
+        .stat-val { font-size: 1.5rem; font-weight: 700; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.2rem;}
+
+        .manage-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); color: var(--text-main);
+            padding: 0.75rem; border-radius: 8px; font-weight: 500; cursor: pointer; text-align: center; margin-top: auto;
+        }
+        .manage-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* Modal */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 100;
+            justify-content: center; align-items: center; padding: 1rem;
+        }
+        .modal {
+            background: var(--bg-color); border: 1px solid var(--panel-border); border-radius: 12px;
+            width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .modal-header {
+            padding: 1.5rem; border-bottom: 1px solid var(--panel-border); display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+        
+        .session-row {
+            display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .session-row:last-child { border-bottom: none; }
+        
+        .status-select {
+            padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--panel-border); background: rgba(15, 23, 42, 0.9);
+            color: var(--text-main); outline: none; font-weight: 500; cursor: pointer; appearance: none;
+            -webkit-appearance: none; text-align: center;
+        }
+        .status-select.pending { border-left: 4px solid var(--text-muted); color: var(--text-muted); }
+        .status-select.present { border-left: 4px solid var(--success); color: var(--success); }
+        .status-select.absent { border-left: 4px solid var(--danger); color: var(--danger); }
+        .status-select.cancelled { border-left: 4px solid var(--warning); color: var(--warning); }
+        
+        .session-date { font-weight: 600; font-size: 1rem; margin-bottom: 0.2rem; text-transform: capitalize; }
+        .session-week { font-size: 0.8rem; color: var(--text-muted); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+
+        /* Toasts & Floating Actions */
+        .floating-actions {
+            position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 0.75rem; z-index: 900;
+        }
+
+        .glass-btn {
+            background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-muted);
+            padding: 0.6rem 1.2rem; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+            cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); font-family: 'Inter', sans-serif;
+        }
+        .glass-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--text-main); border-color: rgba(255, 255, 255, 0.2); }
+        .glass-btn.warning:hover { color: var(--warning); border-color: rgba(245, 158, 11, 0.3); }
+
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem; left: 2rem; max-width: 500px; margin: 0 auto;
+            background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(12px); border: 1px solid var(--panel-border);
+            border-radius: 12px; padding: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); z-index: 1000;
+            transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .toast-warning { border-left: 4px solid var(--warning); }
+        .toast-info { border-left: 4px solid var(--unesp-blue); }
+        
+        .toast.show { transform: translateY(0); }
+        .toast-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
+        .toast-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <img src="../assets/id_visual_cacco/CACCo-Branco.png" alt="CACCo" style="height: 50px; object-fit: contain;">
+                <div style="width: 2px; height: 35px; background: rgba(255,255,255,0.2);"></div>
+                <img src="../assets/id_visual_unesp/AV01B_transparent.png" alt="UNESP" style="height: 45px; object-fit: contain;">
+            </div>
+            <h1>Controle de Faltas</h1>
+            <p>Gere cronogramas precisos, marque datas passadas/futuras e acompanhe as faltas permitidas.</p>
+        </header>
+
+        <div class="glass-panel">
+            <h2 style="margin-bottom: 1.5rem;">Adicionar Nova Matéria</h2>
+            <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                    <label>Nome da Matéria</label>
+                    <input type="text" id="className" placeholder="Ex: Cálculo 1" required>
+                </div>
+                <div class="form-group">
+                    <label>Início do Semestre</label>
+                    <input type="date" id="startDate" value="2026-08-10" required>
+                </div>
+                <div class="form-group">
+                    <label>Fim do Semestre</label>
+                    <input type="date" id="endDate" value="2026-12-17" required>
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label>Dias da semana</label>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" id="daysSelector">
+                    <button class="day-btn" data-day="1">Seg</button>
+                    <button class="day-btn" data-day="2">Ter</button>
+                    <button class="day-btn" data-day="3">Qua</button>
+                    <button class="day-btn" data-day="4">Qui</button>
+                    <button class="day-btn" data-day="5">Sex</button>
+                    <button class="day-btn" data-day="6">Sáb</button>
+                    <button class="day-btn" data-day="0">Dom</button>
+                </div>
+            </div>
+            
+            <button class="action-btn" id="addBtn">Adicionar Matéria e Gerar Cronograma</button>
+        </div>
+
+        <div class="classes-grid" id="classesGrid">
+            <!-- Class cards -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="scheduleModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div style="display: flex; flex-direction: column;">
+                    <h2 id="modalTitle">Cronograma</h2>
+                    <span id="modalStats" style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.3rem;"></span>
+                </div>
+                <button class="btn-delete" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Toasts -->
+    <div id="disclaimerToast" class="toast toast-warning">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+            <div>
+                <div class="toast-title" style="color: var(--warning);">Aviso Importante</div>
+                <div class="toast-text">
+                    Este sistema não é oficial e os cálculos podem variar. Utilize-o apenas como um guia pessoal. O CACCo e os desenvolvedores não se responsabilizam por eventuais reprovações ou divergências com o sistema oficial da UNESP (Sisgrad).
+                </div>
+            </div>
+            <button class="btn-delete" onclick="dismissToast('disclaimerToast')" style="padding: 0; font-size: 1.2rem; margin-top: -0.2rem;">✕</button>
+        </div>
+    </div>
+
+    <div id="infoToast" class="toast toast-info">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+            <div>
+                <div class="toast-title" style="color: #60a5fa;">Privacidade e Acesso Offline</div>
+                <div class="toast-text">
+                    Este aplicativo funciona 100% no seu navegador! Seus dados são salvos localmente no seu dispositivo e nunca são enviados para nenhum servidor. Além disso, ele funciona completamente offline (sem internet).
+                </div>
+            </div>
+            <button class="btn-delete" onclick="dismissToast('infoToast')" style="padding: 0; font-size: 1.2rem; margin-top: -0.2rem;">✕</button>
+        </div>
+    </div>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <button onclick="showToast('infoToast')" class="glass-btn">ℹ️ Como Funciona</button>
+        <button onclick="showToast('disclaimerToast')" class="glass-btn warning">⚠️ Aviso Legal</button>
+    </div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 3rem; padding-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+        Made by <a href="https://github.com/zirondi" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600;">zirondi</a> with ❤️
+    </footer>
+
+    <script>
+        // State
+        let classes = JSON.parse(localStorage.getItem('attendance_pro_classes_ptbr')) || [];
+        
+        // We will migrate old classes if any
+        if (classes.length === 0) {
+            let oldData = JSON.parse(localStorage.getItem('attendance_pro_classes'));
+            if (oldData && oldData.length > 0) {
+                classes = oldData;
+                localStorage.setItem('attendance_pro_classes_ptbr', JSON.stringify(classes));
+            }
+        }
+
+        let selectedDays = [];
+
+        // DOM
+        const daysBtns = document.querySelectorAll('.day-btn');
+        const classesGrid = document.getElementById('classesGrid');
+
+        // Init Day Selector
+        daysBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const day = parseInt(btn.dataset.day);
+                if(selectedDays.includes(day)) {
+                    selectedDays = selectedDays.filter(d => d !== day);
+                    btn.classList.remove('active');
+                } else {
+                    selectedDays.push(day);
+                    btn.classList.add('active');
+                }
+                document.getElementById('addBtn').disabled = selectedDays.length === 0;
+            });
+        });
+        document.getElementById('addBtn').disabled = true;
+
+        // Generate Sessions Logic
+        function generateSessions(startDateStr, endDateStr, daysArr) {
+            let sessions = [];
+            
+            let [sy, sm, sd] = startDateStr.split('-');
+            let start = new Date(sy, sm - 1, sd);
+            let [ey, em, ed] = endDateStr.split('-');
+            let end = new Date(ey, em - 1, ed);
+
+            // Find Monday of start week
+            let startMonday = new Date(start);
+            let sDay = startMonday.getDay();
+            startMonday.setDate(startMonday.getDate() - (sDay === 0 ? 6 : sDay - 1));
+
+            // Find Monday of end week
+            let endMonday = new Date(end);
+            let eDay = endMonday.getDay();
+            endMonday.setDate(endMonday.getDate() - (eDay === 0 ? 6 : eDay - 1));
+
+            let curr = new Date(start);
+            while (curr <= end) {
+                if (daysArr.includes(curr.getDay())) {
+                    let daysDiff = Math.round((curr - startMonday) / (1000 * 60 * 60 * 24));
+                    let weekNum = Math.floor(daysDiff / 7) + 1;
+                    let isSubstituteWeek = curr >= endMonday;
+                    
+                    sessions.push({
+                        id: Math.random().toString(36).substr(2, 9),
+                        dateStr: `${curr.getFullYear()}-${(curr.getMonth()+1).toString().padStart(2,'0')}-${curr.getDate().toString().padStart(2,'0')}`,
+                        dateLabel: curr.toLocaleDateString('pt-BR', { weekday: 'long', month: 'short', day: 'numeric' }),
+                        weekLabel: isSubstituteWeek ? `Semana ${weekNum} (Substitutiva)` : `Semana ${weekNum}`,
+                        status: 'pending'
+                    });
+                }
+                curr.setDate(curr.getDate() + 1);
+            }
+            return sessions;
+        }
+
+        // Add Class
+        document.getElementById('addBtn').addEventListener('click', () => {
+            const name = document.getElementById('className').value.trim();
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+            
+            if(!name || !start || !end || selectedDays.length === 0) return alert("Por favor, preencha todos os campos e selecione os dias.");
+
+            const sessions = generateSessions(start, end, selectedDays);
+            
+            classes.push({
+                id: Date.now().toString(),
+                name,
+                sessions
+            });
+            
+            saveData();
+            document.getElementById('className').value = '';
+            renderClasses();
+        });
+
+        // Save
+        function saveData() {
+            localStorage.setItem('attendance_pro_classes_ptbr', JSON.stringify(classes));
+        }
+
+        // Delete Class
+        function deleteClass(id) {
+            if(confirm("Deseja excluir esta matéria completamente?")) {
+                classes = classes.filter(c => c.id !== id);
+                saveData();
+                renderClasses();
+            }
+        }
+
+        // Render Classes
+        function renderClasses() {
+            classesGrid.innerHTML = '';
+            if (classes.length === 0) {
+                classesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">Nenhuma matéria adicionada ainda.</p>';
+                return;
+            }
+
+            classes.forEach(cls => {
+                // Calculate stats based on 70% requirement
+                const activeSessions = cls.sessions.filter(s => s.status !== 'cancelled');
+                const totalScheduled = activeSessions.length;
+                const presents = activeSessions.filter(s => s.status === 'present').length;
+                const absents = activeSessions.filter(s => s.status === 'absent').length;
+                
+                const maxAbsencesAllowed = Math.floor(totalScheduled * 0.3);
+                const absencesLeft = maxAbsencesAllowed - absents;
+                const isSafe = absencesLeft >= 0;
+
+                const card = document.createElement('div');
+                card.className = 'class-card';
+                card.innerHTML = `
+                    <div class="class-header">
+                        <h3 class="class-title">${cls.name}</h3>
+                        <button class="btn-delete" onclick="deleteClass('${cls.id}')" title="Excluir">✕</button>
+                    </div>
+                    
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-val" style="color: var(--success)">${presents}</div>
+                            <div class="stat-label">Presenças</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val" style="color: var(--danger)">${absents}</div>
+                            <div class="stat-label">Faltas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val" style="color: ${isSafe ? 'var(--accent)' : 'var(--danger)'}">${absencesLeft}</div>
+                            <div class="stat-label" style="color: ${isSafe ? 'var(--accent)' : 'var(--danger)'}">Faltas Restantes</div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; text-align: center;">
+                        Total de Aulas Válidas: ${totalScheduled} (Requer ${totalScheduled - maxAbsencesAllowed} presenças)
+                    </div>
+
+                    <button class="manage-btn" onclick="openModal('${cls.id}')">
+                        Gerenciar Cronograma (${cls.sessions.length} dias)
+                    </button>
+                `;
+                classesGrid.appendChild(card);
+            });
+        }
+
+        // Modal Logic
+        let activeClassId = null;
+
+        function openModal(classId) {
+            activeClassId = classId;
+            const cls = classes.find(c => c.id === classId);
+            document.getElementById('modalTitle').innerText = 'Cronograma: ' + cls.name;
+            
+            let html = '';
+            cls.sessions.forEach(session => {
+                html += `
+                    <div class="session-row">
+                        <div>
+                            <div class="session-date">${session.dateLabel}</div>
+                            <div class="session-week">${session.weekLabel}</div>
+                        </div>
+                        <div>
+                            <select class="status-select ${session.status}" onchange="updateSession('${cls.id}', '${session.id}', this)">
+                                <option value="pending" ${session.status==='pending'?'selected':''}>Pendente</option>
+                                <option value="present" ${session.status==='present'?'selected':''}>✓ Presente</option>
+                                <option value="absent" ${session.status==='absent'?'selected':''}>✕ Falta</option>
+                                <option value="cancelled" ${session.status==='cancelled'?'selected':''}>━ Sem Aula</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('modalBody').innerHTML = html;
+            
+            const activeSessions = cls.sessions.filter(s => s.status !== 'cancelled').length;
+            const absents = cls.sessions.filter(s => s.status === 'absent').length;
+            const maxAbsencesAllowed = Math.floor(activeSessions * 0.3);
+            document.getElementById('modalStats').innerText = `Aulas Válidas: ${activeSessions} | Faltas Restantes: ${maxAbsencesAllowed - absents}`;
+
+            document.getElementById('scheduleModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('scheduleModal').style.display = 'none';
+            activeClassId = null;
+        }
+
+        function updateSession(classId, sessionId, selectEl) {
+            const cls = classes.find(c => c.id === classId);
+            const session = cls.sessions.find(s => s.id === sessionId);
+            
+            selectEl.className = 'status-select ' + selectEl.value;
+            session.status = selectEl.value;
+            
+            saveData();
+            renderClasses();
+            
+            const activeSessions = cls.sessions.filter(s => s.status !== 'cancelled').length;
+            const absents = cls.sessions.filter(s => s.status === 'absent').length;
+            const maxAbsencesAllowed = Math.floor(activeSessions * 0.3);
+            document.getElementById('modalStats').innerText = `Aulas Válidas: ${activeSessions} | Faltas Restantes: ${maxAbsencesAllowed - absents}`;
+        }
+
+        // Initialize
+        renderClasses();
+
+        // Toast Logic
+        if (!localStorage.getItem('attendance_pro_disclaimer')) {
+            setTimeout(() => { showToast('disclaimerToast'); }, 1000);
+        } else if (!localStorage.getItem('attendance_pro_info')) {
+            setTimeout(() => { showToast('infoToast'); }, 1000);
+        }
+
+        function dismissToast(id) {
+            document.getElementById(id).classList.remove('show');
+            if (id === 'disclaimerToast') {
+                localStorage.setItem('attendance_pro_disclaimer', 'true');
+                if (!localStorage.getItem('attendance_pro_info')) {
+                    setTimeout(() => { showToast('infoToast'); }, 500);
+                }
+            } else if (id === 'infoToast') {
+                localStorage.setItem('attendance_pro_info', 'true');
+            }
+        }
+
+        function showToast(id) {
+            document.querySelectorAll('.toast').forEach(t => t.classList.remove('show'));
+            document.getElementById(id).classList.add('show');
+        }
+
+        // PWA: Registra o Service Worker para funcionar offline
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado com sucesso!'))
+                    .catch(err => console.log('Falha ao registrar o Service Worker:', err));
+            });
+        }
+    </script>
+</body>
+</html>
