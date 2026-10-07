@@ -35,22 +35,28 @@
         }
 
         .container { width: 100%; max-width: 900px; }
-
+        
         header { text-align: center; margin-bottom: 2rem; }
-
+        
         h1 {
             font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;
             background: linear-gradient(to right, var(--accent), var(--unesp-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         
         header p { color: var(--text-muted); font-size: 1.1rem; }
-
+        
+        .glass-container{
+            display: flex;
+            flex-direction:  column;
+            gap: 1.5rem;
+        }
+        
         .glass-panel {
             background: var(--panel-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--panel-border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-
+        
         .form-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
         .form-group { flex: 1; min-width: 200px; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-muted); font-weight: 500; }
@@ -77,7 +83,7 @@
         button.action-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .classes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .classes-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
 
         .class-card {
             background: var(--panel-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--panel-border);
@@ -104,6 +110,31 @@
             padding: 0.75rem; border-radius: 8px; font-weight: 500; cursor: pointer; text-align: center; margin-top: auto;
         }
         .manage-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* Restyle for bigger devices */
+        @media (min-width: 768px){
+            .container{
+                max-width:  100%;
+                display: grid;
+                grid-template-columns: 380px 1fr;
+                gap:1.5rem;
+                align-items: start;
+            }
+
+            header{
+                grid-column: 1 / 3;
+            }
+
+            .glass-container{
+                grid-column: 1 / 2;
+            }
+
+            .classes-grid{
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                grid-column: 2 / 3;
+            }
+
+        }
 
         /* Modal */
         .modal-overlay {
@@ -181,42 +212,65 @@
                 <div style="width: 2px; height: 35px; background: rgba(255,255,255,0.2);"></div>
                 <img src="../assets/id_visual_unesp/AV01B_transparent.png" alt="UNESP" style="height: 45px; object-fit: contain;">
             </div>
-            <h1>Controle de Faltas</h1>
-            <p>Gere cronogramas precisos, marque datas passadas/futuras e acompanhe as faltas permitidas.</p>
+            <h1>Controle de Faltas e Notas</h1>
+            <p>Gere cronogramas precisos, marque datas passadas/futuras, acompanhe as faltas permitidas e não dependa do professor postar a nota no SISGRAD.</p>
         </header>
 
-        <div class="glass-panel">
-            <h2 style="margin-bottom: 1.5rem;">Adicionar Nova Matéria</h2>
-            <div class="form-row">
-                <div class="form-group" style="flex: 2;">
-                    <label>Nome da Matéria</label>
-                    <input type="text" id="className" placeholder="Ex: Cálculo 1" required>
+        <div class="glass-container">
+            <div class="glass-panel">
+                <h2 style="margin-bottom: 1.5rem;">Adicionar Nova Matéria</h2>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Nome da Matéria</label>
+                        <input type="text" id="className" placeholder="Ex: Cálculo 1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Início do Semestre</label>
+                        <input type="date" id="startDate" value="2026-08-10" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fim do Semestre</label>
+                        <input type="date" id="endDate" value="2026-12-17" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Início do Semestre</label>
-                    <input type="date" id="startDate" value="2026-08-10" required>
+                
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Dias da semana</label>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" id="daysSelector">
+                        <button class="day-btn" data-day="1">Seg</button>
+                        <button class="day-btn" data-day="2">Ter</button>
+                        <button class="day-btn" data-day="3">Qua</button>
+                        <button class="day-btn" data-day="4">Qui</button>
+                        <button class="day-btn" data-day="5">Sex</button>
+                        <button class="day-btn" data-day="6">Sáb</button>
+                        <button class="day-btn" data-day="0">Dom</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Fim do Semestre</label>
-                    <input type="date" id="endDate" value="2026-12-17" required>
-                </div>
+                
+                <button class="action-btn" id="addBtn">Adicionar Matéria e Gerar Cronograma</button>
             </div>
-            
-            <div class="form-group" style="margin-bottom: 1rem;">
-                <label>Dias da semana</label>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" id="daysSelector">
-                    <button class="day-btn" data-day="1">Seg</button>
-                    <button class="day-btn" data-day="2">Ter</button>
-                    <button class="day-btn" data-day="3">Qua</button>
-                    <button class="day-btn" data-day="4">Qui</button>
-                    <button class="day-btn" data-day="5">Sex</button>
-                    <button class="day-btn" data-day="6">Sáb</button>
-                    <button class="day-btn" data-day="0">Dom</button>
+
+            <div class="glass-panel">
+                <h2 style="margin-bottom: 1.5rem;">Adicionar Nova Avaliação</h2>
+                <div class="form-row">
+                    <div class="form-group" id="subjectParent" style="flex: 2;">
+                        <label>Matéria</label>
+                        <select id="gradeClassSelect"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nome da Avaliação</label>
+                        <input type="text" id="gradeName" placeholder="Ex: Prova 1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nota da Avaliação</label>
+                        <input type="number" id="gradeValue" min="0" max="10" step="0.05" placeholder="Ex: 5.75" required>
+                    </div>
                 </div>
+
+                <button class="action-btn" id="gradeAddBtn">Adicionar Nota</button>
             </div>
-            
-            <button class="action-btn" id="addBtn">Adicionar Matéria e Gerar Cronograma</button>
         </div>
+
 
         <div class="classes-grid" id="classesGrid">
             <!-- Class cards -->
@@ -382,13 +436,15 @@
             }
         }
 
-        // Render Classes
+        // Render Classes (Updated to integrate the new grades control system)
         function renderClasses() {
             classesGrid.innerHTML = '';
             if (classes.length === 0) {
                 classesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">Nenhuma matéria adicionada ainda.</p>';
                 return;
             }
+
+            updateClassSelect();
 
             classes.forEach(cls => {
                 // Calculate stats based on 70% requirement
@@ -400,6 +456,14 @@
                 const maxAbsencesAllowed = Math.floor(totalScheduled * 0.3);
                 const absencesLeft = maxAbsencesAllowed - absents;
                 const isSafe = absencesLeft >= 0;
+
+                const gradesList = cls.grades && cls.grades.length > 0 ? cls.grades.map(g => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <span>${g.name}: <strong>${g.grade.toFixed(1)}</strong></span>
+                        <button onclick="deleteGrade('${cls.id}', '${g.id}')" title="Excluir Nota" style="background:none; border:none; color: var(--danger); cursor:pointer;">✕</button>
+                    </div>
+                    `).join('') : '<div style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">Nenhuma nota cadastrada.</div>'
+                ;
 
                 const card = document.createElement('div');
                 card.className = 'class-card';
@@ -428,12 +492,83 @@
                         Total de Aulas Válidas: ${totalScheduled} (Requer ${totalScheduled - maxAbsencesAllowed} presenças)
                     </div>
 
+                    <div class="grades-section" style="margin-bottom: 1rem; background: rgba(0,0,0,0.15); padding: 0.75rem; border-radius: 8px;">
+                        <div style="font-size: 0.85rem; font-weight: bold; margin-bottom: 0.5rem; color: var(--text-main);">Notas e Provas</div>
+                        ${gradesList}
+                    </div>
+
                     <button class="manage-btn" onclick="openModal('${cls.id}')">
                         Gerenciar Cronograma (${cls.sessions.length} dias)
                     </button>
                 `;
                 classesGrid.appendChild(card);
             });
+        }
+
+        // Update Select dinamically
+        function updateClassSelect() {
+            const selectG = document.getElementById('gradeClassSelect');
+            if (!selectG) return;
+            
+            selectG.innerHTML = '<option value="">Selecione a matéria...</option>';
+            classes.forEach(cls => {
+                const opt = document.createElement('option');
+                opt.value = cls.id;
+                opt.textContent = cls.name;
+                selectG.appendChild(opt);
+            });
+        }
+
+        // Add grades
+        document.getElementById('gradeAddBtn').addEventListener('click', () => {
+            const classId = document.getElementById('gradeClassSelect').value;
+            const name = document.getElementById('gradeName').value.trim();
+            const gradeVal = parseFloat(document.getElementById('gradeValue').value);
+
+            // Validation
+            if (!classId || !name || isNaN(gradeVal)) {
+                return alert("Por favor, selecione a matéria, preencha o nome e informe a nota.");
+            }
+
+            if (gradeVal < 0 || gradeVal > 10) {
+                return alert("A nota deve estar entre 0 e 10.");
+            }
+
+            const cls = classes.find(c => c.id === classId);
+            if (!cls) return alert("Matéria não encontrada.");
+
+            // Check grades array exists before trying to create one
+            if (!cls.grades) {
+                cls.grades = [];
+            }
+
+            // Push new grade
+            cls.grades.push({
+                id: Math.random().toString(36).substr(2, 9),
+                name: name,
+                grade: gradeVal
+            });
+
+            saveData();
+            
+            // Reset
+            document.getElementById('gradeName').value = '';
+            document.getElementById('gradeValue').value = '';
+            document.getElementById('gradeClassSelect').value = '';
+
+            renderClasses();
+        });
+
+        // Delete grade
+        function deleteGrade(classId, gradeId) {
+            const cls = classes.find(c => c.id === classId);
+            if (!cls || !cls.grades) return;
+
+            if (confirm("Deseja excluir esta avaliação?")) {
+                cls.grades = cls.grades.filter(g => g.id !== gradeId);
+                saveData();
+                renderClasses();
+            }
         }
 
         // Modal Logic
