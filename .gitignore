@@ -1,0 +1,4 @@
+**/node_modules/
+**/package*.json
+mine/input.css
+mine/tailwind.config.js

@@ -16,7 +16,10 @@
             --text-muted: #94a3b8;
             --accent: #ed157b; /* CACCo Pink */
             --accent-hover: #c90e66;
+            --accent-hover-shadow: rgba(237, 21, 123, 0.4);
             --unesp-blue: #004e9a; /* UNESP Blue */
+            --unesp-blue-hover: #014181; /* UNESP Blue */
+            --unesp-blue-hover-shadow: rgba(0, 78, 154, 0.4);
             --glass-blur: blur(12px);
         }
 
@@ -94,7 +97,29 @@
         .btn-primary:hover {
             background-color: var(--accent-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(237, 21, 123, 0.4);
+            box-shadow: 0 4px 12px var(--accent-hover-shadow);
+        }
+
+
+        .btn-secondary {
+            display: inline-block;
+            background-color: var(--unesp-blue);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--unesp-blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--unesp-blue-hover-shadow);
         }
 
         .footer {
@@ -119,19 +144,22 @@
     </div>
 
     <div class="glass-panel">
-        <h1>Em Construção</h1>
-        <p class="subtitle">O site oficial do CACCo está sendo programado neste exato momento por nossa equipe de elite.</p>
+        <h1 id="titulo">Em Construção</h1>
+        <p class="subtitle" id="subtitulo">O site oficial do CACCo está sendo programado neste exato momento por nossa equipe de elite.</p>
         
         <img src="https://i.kym-cdn.com/entries/icons/original/000/021/807/ig9OoyenpxqdCQyABmOQBZDI0duHk2QZZmWg2Hxd4ro.jpg" alt="Hackerman" class="hackerman-img">
 
-        <p style="margin-bottom: 1rem; color: var(--text-main);">Enquanto o site principal não fica pronto, você pode usar nossa ferramenta:</p>
-        <a href="./faltas/index.html" class="btn-primary">Acessar Controle de Faltas</a>
+        <p style="margin-bottom: 1rem; color: var(--text-main);">Nosso site principal ainda não está pronto, mas algumas partes estão! Confira:</p>
+        <div style="display: flex; gap: 1.5rem; align-items: center; justify-content: center;">
+            <a href="./faltas/index.html" class="btn-primary">Acessar Controle de Faltas</a>
+            <a href="./mine/index.html" class="btn-secondary">Servidor de Minecraft</a>
+        </div>
     </div>
 
     <footer class="footer">
         Made by <a href="https://github.com/zirondi" target="_blank">zirondi</a> with ❤️
     </footer>
 
-    <script>!function(){var e=[38,38,40,40,37,39,37,39,66,65],t=0;document.addEventListener("keydown",(function(n){n.keyCode===e[t]?++t===e.length&&(t=0,eval(atob("CnZhciBlPW5ldyBBdWRpbygiLi9hc3NldHMvdXNzcl9hbnRoZW0ubXAzIik7CmUuY3VycmVudFRpbWUgPSA1OwplLnBsYXkoKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLWFjY2VudCIsIiNjYzAwMDAiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLWFjY2VudC1ob3ZlciIsIiM5OTAwMDAiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLXVuZXNwLWJsdWUiLCIjZmZjYzAwIik7CmRvY3VtZW50LmJvZHkuc3R5bGUuYmFja2dyb3VuZEltYWdlPSJyYWRpYWwtZ3JhZGllbnQoY2lyY2xlIGF0IDE1JSA1MCUsIHJnYmEoMjA0LCAwLCAwLCAwLjQpIDAlLCB0cmFuc3BhcmVudCA1MCUpLCByYWRpYWwtZ3JhZGllbnQoY2lyY2xlIGF0IDg1JSAzMCUsIHJnYmEoMjU1LCAyMDQsIDAsIDAuMikgMCUsIHRyYW5zcGFyZW50IDUwJSkiOwp2YXIgdD1kb2N1bWVudC5xdWVyeVNlbGVjdG9yKCIuaGFja2VybWFuLWltZyIpOwp0JiYodC5zcmM9Ii4vYXNzZXRzL2Vhc3Rlcl9lZ2dfaW1nLmpwZWciKTsKdmFyIG49ZG9jdW1lbnQucXVlcnlTZWxlY3RvcigibGlua1tyZWw9J2ljb24nXSIpOwppZihuKXsKICAgIG4uaHJlZj0iZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lqNDhkR1Y0ZENCNVBTSXVPV1Z0SWlCbWIyNTBMWE5wZW1VOUlqa3dJaUJtYVd4c1BTSWpZMk13TURBd0lqN2ltSzA4TDNSbGVIUStQQzl6ZG1jKyI7Cn0gZWxzZSB7CiAgICBuID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgibGluayIpOwogICAgbi5yZWwgPSAiaWNvbiI7CiAgICBuLmhyZWYgPSAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lqNDhkR1Y0ZENCNVBTSXVPV1Z0SWlCbWIyNTBMWE5wZW1VOUlqa3dJaUJtYVd4c1BTSWpZMk13TURBd0lqN2ltSzA4TDNSbGVIUStQQzl6ZG1jKyI7CiAgICBkb2N1bWVudC5oZWFkLmFwcGVuZENoaWxkKG4pOwp9Cg=="))):(t=0)}))}();</script>
+    <script>!function(){var e=[38,38,40,40,37,39,37,39,66,65],t=0;document.addEventListener("keydown",(function(n){n.keyCode===e[t]?++t===e.length&&(t=0,eval(att("CnZhciBlPW5ldyBBdWRpbygiLi9hc3NldHMvdXNzcl9hbnRoZW0ubXAzIik7CmUuY3VycmVudFRpbWUgPSA1OwplLnBsYXkoKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLWFjY2VudCIsIiNjYzAwMDAiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLWFjY2VudC1ob3ZlciIsIiM5OTAwMDAiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLWFjY2VudC1ob3Zlci1zaGFkb3ciLCAicmdiYSgyMDQsIDAsIDAsIDAuNCkiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLXVuZXNwLWJsdWUiLCIjZmZjYzAwIik7CmRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5zdHlsZS5zZXRQcm9wZXJ0eSgiLS11bmVzcC1ibHVlLWhvdmVyIiwgIiNiZjk5MDAiKTsKZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnN0eWxlLnNldFByb3BlcnR5KCItLXVuZXNwLWJsdWUtaG92ZXItc2hhZG93IiwgInJnYmEoMjU1LCAyMDQsIDAsIDAuNCkiKTsKZG9jdW1lbnQuYm9keS5zdHlsZS5iYWNrZ3JvdW5kSW1hZ2U9InJhZGlhbC1ncmFkaWVudChjaXJjbGUgYXQgMTUlIDUwJSwgcmdiYSgyMDQsIDAsIDAsIDAuNCkgMCUsIHRyYW5zcGFyZW50IDUwJSksIHJhZGlhbC1ncmFkaWVudChjaXJjbGUgYXQgODUlIDMwJSwgcmdiYSgyNTUsIDIwNCwgMCwgMC4yKSAwJSwgdHJhbnNwYXJlbnQgNTAlKSI7CmRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJ0aXR1bG8iKS5pbm5lclRleHQgPSAiVmlkYSBsb25nYSBhIHJldm9sdcOnw6NvISI7CmRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJzdWJ0aXR1bG8iKS5pbm5lclRleHQgPSAi0JjQtNC4INC6INGH0LXRgNGC0YMsINCQ0L3QtNGA0LUg0J/Rg9C/0LXQvS4iOwp2YXIgdD1kb2N1bWVudC5xdWVyeVNlbGVjdG9yKCIuaGFja2VybWFuLWltZyIpOwp0JiYodC5zcmM9Ii4vYXNzZXRzL2Vhc3Rlcl9lZ2dfaW1nLmpwZWciKTsKdmFyIG49ZG9jdW1lbnQucXVlcnlTZWxlY3RvcigibGlua1tyZWw9J2ljb24nXSIpOwppZihuKXsKICAgIG4uaHJlZj0iZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lqNDhkR1Y0ZENCNVBTSXVPV1Z0SWlCbWIyNTBMWE5wZW1VOUlqa3dJaUJtYVd4c1BTSWpZMk13TURBd0lqN2ltSzA4TDNSbGVIUStQQzl6ZG1jKyI7Cn0gZWxzZSB7CiAgICBuID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgibGluayIpOwogICAgbi5yZWwgPSAiaWNvbiI7CiAgICBuLmhyZWYgPSAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lqNDhkR1Y0ZENCNVBTSXVPV1Z0SWlCbWIyNTBMWE5wZW1VOUlqa3dJaUJtYVd4c1BTSWpZMk13TURBd0lqN2ltSzA4TDNSbGVIUStQQzl6ZG1jKyI7CiAgICBkb2N1bWVudC5oZWFkLmFwcGVuZENoaWxkKG4pOwp9Cg=="))):(t=0)}))}();function att(bbb){const _0x72e=atob(bbb);const _0xa50b6b=new Uint8Array(_0x72e.length);const _0x2dade=new TextDecoder("utf-8");for(let i=0;i<_0x72e.length;i++){_0xa50b6b[i]=_0x72e.charCodeAt(i);}return _0x2dade.decode(_0xa50b6b);}</script>
 </body>
 </html>
